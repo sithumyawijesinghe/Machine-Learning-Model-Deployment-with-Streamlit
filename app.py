@@ -6,6 +6,7 @@ import numpy as np
 with open("model.pkl", "rb") as f:
     model = pickle.load(f)
 
+
 st.title("Titanic Survival Prediction App")
 st.write("Enter passenger details to see if they would have survived the Titanic disaster.")
 
