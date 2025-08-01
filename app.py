@@ -1,35 +1,40 @@
-import streamlit as st
 import pickle
-import numpy as np
+import streamlit as st
+import pandas as pd
 
-# Load model
+# Load the model
 with open("model.pkl", "rb") as f:
     model = pickle.load(f)
 
+st.title("Titanic Survival Prediction")
 
-st.title("Titanic Survival Prediction App")
-st.write("Enter passenger details to see if they would have survived the Titanic disaster.")
-
-# User input form
+# Create input fields matching your features
 pclass = st.selectbox("Passenger Class (1 = 1st, 2 = 2nd, 3 = 3rd)", [1, 2, 3])
-sex = st.selectbox("Sex", ["Male", "Female"])
-age = st.slider("Age", 0, 100, 25)
-sibsp = st.number_input("Number of Siblings/Spouses Aboard", 0, 10, 0)
-parch = st.number_input("Number of Parents/Children Aboard", 0, 10, 0)
-fare = st.number_input("Fare Paid", 0.0, 600.0, 32.0)
+sex = st.selectbox("Sex", ["male", "female"])
+age = st.number_input("Age", min_value=0, max_value=100, value=30)
+sibsp = st.number_input("Number of siblings/spouses aboard", min_value=0, max_value=10, value=0)
+parch = st.number_input("Number of parents/children aboard", min_value=0, max_value=10, value=0)
+fare = st.number_input("Fare", min_value=0.0, max_value=600.0, value=32.2)
 embarked = st.selectbox("Port of Embarkation", ["C", "Q", "S"])
 
-# Encode input
-sex_encoded = 1 if sex == "Male" else 0
+# Convert inputs to model format
+sex_val = 1 if sex == "male" else 0
 embarked_map = {"C": 0, "Q": 1, "S": 2}
-embarked_encoded = embarked_map[embarked]
+embarked_val = embarked_map[embarked]
 
-# Predict
+input_df = pd.DataFrame({
+    "Pclass": [pclass],
+    "Sex": [sex_val],
+    "Age": [age],
+    "SibSp": [sibsp],
+    "Parch": [parch],
+    "Fare": [fare],
+    "Embarked": [embarked_val]
+})
+
 if st.button("Predict Survival"):
-    input_data = np.array([[pclass, sex_encoded, age, sibsp, parch, fare, embarked_encoded]])
-    prediction = model.predict(input_data)[0]
-    
+    prediction = model.predict(input_df)[0]
     if prediction == 1:
-        st.success("The passenger **would have survived**.")
+        st.success("The passenger is predicted to survive!")
     else:
-        st.error("The passenger **would not have survived**.")
+        st.error("The passenger is predicted not to survive.")
