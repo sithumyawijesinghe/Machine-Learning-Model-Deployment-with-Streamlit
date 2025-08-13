@@ -5,19 +5,19 @@ Features
 Simple, user-friendly interface
 
 Predict survival chances using passenger details:
-Passenger Class
-Sex
-Age
-Number of Siblings/Spouses
-Number of Parents/Children
-Fare Price
-Port of Embarkation
-Deployed on Streamlit Cloud for easy access
+Passenger Class,
+Sex,
+Age,
+Number of Siblings/Spouses,
+Number of Parents/Children,,
+Fare Price,
+Port of Embarkation,
+Deployed on Streamlit Cloud for easy access.
 
 Technologies Used,
-Python (pandas, scikit-learn, pickle)
-Streamlit for web app development
-GitHub for version control
-Streamlit Cloud for deployment
+Python (pandas, scikit-learn, pickle),
+Streamlit for web app development,
+GitHub for version control,
+Streamlit Cloud for deployment.
 
 
